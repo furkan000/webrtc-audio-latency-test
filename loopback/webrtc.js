@@ -32,11 +32,11 @@ function pageReady() {
     audio: true,
   };
 
-  if(navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
-  } else {
-    alert('Your browser does not support getUserMedia API');
-  }
+  // if(navigator.mediaDevices.getUserMedia) {
+    // navigator.mediaDevices.getUserMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
+  // } else {
+    // alert('Your browser does not support getUserMedia API');
+  // }
 }
 
 function getUserMediaSuccess(stream) {
@@ -48,10 +48,10 @@ function start(isCaller) {
   peerConnection = new RTCPeerConnection(peerConnectionConfig);
   peerConnection.onicecandidate = gotIceCandidate;
   peerConnection.ontrack = gotRemoteStream;
-  peerConnection.addStream(localStream);
+  // peerConnection.addStream(localStream);
 
   if(isCaller) {
-    peerConnection.createOffer().then(createdDescription).catch(errorHandler);
+    peerConnection.createOffer(offerOptions).then(createdDescription).catch(errorHandler);
   }
 }
 
@@ -64,6 +64,7 @@ function gotMessageFromServer(message) {
   if(signal.uuid == uuid) return;
 
   if(signal.sdp) {
+    console.log("sdp received");
     peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function() {
       // Only create answers in response to offers
       if(signal.sdp.type == 'offer') {
@@ -92,6 +93,8 @@ function createdDescription(description) {
 function gotRemoteStream(event) {
   console.log('got remote stream');
   remoteAudio.srcObject = event.streams[0];
+
+  peerConnection.addStream(event.streams[0])
 }
 
 function errorHandler(error) {

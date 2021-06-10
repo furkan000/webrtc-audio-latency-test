@@ -25,6 +25,16 @@ const handleRequest = function(request, response) {
     response.writeHead(200, {'Content-Type': 'application/javascript'});
     response.end(fs.readFileSync('client/webrtc.js'));
   }
+  
+  if(request.url === '/loopback') {
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.end(fs.readFileSync('loopback/index.html'));
+  } else if(request.url === '/loopback/webrtc.js') {
+    response.writeHead(200, {'Content-Type': 'application/javascript'});
+    response.end(fs.readFileSync('loopback/webrtc.js'));
+  }
+
+
 };
 
 const httpsServer = https.createServer(serverConfig, handleRequest);
