@@ -27,7 +27,7 @@ With the server running, open a recent version of Firefox, Chrome, or Safari and
 
 ## Test using multiple machines (loopback)
 - One peer visits `https://localhost:8443` (or the respective ip instead of localhost)
-- The other peer visits `https://localhost:8443/loopback`. This clients only sends back the audio it receives.
+- The other peer visits `https://localhost:8443/loopback`. This client only sends back the audio it receives.
 - Make a measurement as previously described using the non-loopback client
 
 ### Ideas for improvement
